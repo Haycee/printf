@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # include <unistd.h>
-# include "../libft/libft.h"
+# include "./libft/libft.h"
 
 int		ft_printf(const char *str, ...);
 void	ft_put_unsigned_nbr_fd(unsigned int n, int fd);
