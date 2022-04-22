@@ -10,7 +10,7 @@ NAME	= libftprintf.a
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
 
-RM		= rm -f
+RM		= rm -rf
 
 ${NAME}	:	libft ${OBJS} 
 	cp ./libft/libft.a ${NAME}
