@@ -1,0 +1,8 @@
+.vscode
+.DS_Store
+.objects
+libftprintf.a
+libft.a
+*.o
+*.a
+.dSYM

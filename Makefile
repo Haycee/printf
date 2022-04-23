@@ -1,28 +1,54 @@
-SRCS =	ft_printf.c \
-		utils.c \
+NAME		:= libftprintf.a
 
-LIBFT_AR = ./libft/libft.a
+INC_PATH	:=	includes
+SRC_PATH	:=	srcs
+OBJ_PATH	:=	.objects
 
-OBJS	= ${SRCS:.c=.o}
+LST_INCS	:=	ft_printf.h
 
-NAME	= libftprintf.a
+LST_SRCS	:=	ft_printf.c \
+				utils.c
 
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+LST_OBJS	:=	$(LST_SRCS:.c=.o)
 
-RM		= rm -rf
+INCS		:=	$(addprefix $(INC_PATH)/,$(LST_INCS))
+SRCS		:=	$(addprefix $(SRC_PATH)/,$(LST_SRCS))
+OBJS		:=	$(addprefix $(OBJ_PATH)/,$(LST_OBJS))
 
-${NAME}	:	libft ${OBJS} 
-	cp ./libft/libft.a ${NAME}
-	ar -crs ${NAME} ${OBJS}
+LIBFT_AR	:= ./libft/libft.a
+
+CC			:= gcc
+CFLAGS		:= -Wall -Wextra -Werror -I $(INCS)
+
+RM			:= rm -rf
+
+ERASE	:=	\033[2K\r
+BOLD	:=	\033[1m
+redir	:=	\033[31m
+GREEN	:=	\033[32m
+BLUE	:=	\033[34m
+PINK	:=	\033[35m
+BOLD	:=	\033[1m
+END		:=	\033[0m
 
 all	: libft ${NAME}
 
 libft :
 	make -C ./libft
 
-%.o: %.c ft_printf.h libft./libft.h
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS) ${LIBFT_AR} Makefile | $(OBJ_PATH)
 	${CC} ${FLAGS} -o $@ -c $<
+	printf "$(BLUE)> Compiling :$(END) $<\n"
+
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
+
+${NAME}	: ${OBJS}
+	cp ./libft/libft.a ${NAME}
+	printf "$(GREEN)> All the ft_printf.c files have been compiled successfully !$(END)\n"
+	printf "$(BLUE)> Creating the Printflibft archive file :$(END) $@\n"
+	ar -crs ${NAME} ${OBJS}
+	printf "$(GREEN)> Libftprintf archive has been compiled successfully !$(END)\n"
 
 clean :
 	${RM} ${OBJS}
@@ -31,6 +57,9 @@ clean :
 fclean : clean
 	${RM} ${NAME}
 	make fclean -C ./libft
+
 re : fclean all
 
 .PHONY: all clean libft fclean re
+
+.SILENT:

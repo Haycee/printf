@@ -1,72 +1,99 @@
-SRCS	= ft_isalnum.c \
-ft_isalpha.c \
-ft_isascii.c \
-ft_isdigit.c \
-ft_isprint.c \
-ft_strlen.c \
-ft_memset.c \
-ft_bzero.c \
-ft_memcpy.c \
-ft_strlcpy.c \
-ft_strlcat.c \
-ft_toupper.c \
-ft_tolower.c \
-ft_strchr.c \
-ft_strrchr.c \
-ft_atoi.c \
-ft_strncmp.c \
-ft_strnstr.c \
-ft_strdup.c \
-ft_strjoin.c \
-ft_calloc.c \
-ft_memchr.c \
-ft_memcmp.c \
-ft_substr.c \
-ft_split.c \
-ft_strtrim.c \
-ft_itoa.c \
-ft_strmapi.c \
-ft_putchar_fd.c \
-ft_putstr_fd.c \
-ft_putnbr_fd.c \
-ft_putendl_fd.c \
-ft_striteri.c \
-ft_memmove.c \
-ft_lstnew.c \
-ft_lstadd_front.c \
-ft_lstsize.c \
-ft_lstlast.c \
-ft_lstadd_back.c \
-ft_lstdelone.c \
-ft_lstclear.c \
-ft_lstiter.c \
-ft_lstmap.c
+NAME:=		libft.a
 
-OBJS	= ${SRCS:.c=.o}
+INC_PATH:=	includes
+SRC_PATH:=	srcs
+OBJ_PATH:=	.objects
 
-NAME	= libft.a
+LST_INCS:=	libft.h
 
-CC		= gcc
-CFLAGS	=  -Wall -Wextra -Werror
+LST_SRCS:=	ft_isalnum.c \
+			ft_isalpha.c \
+			ft_isascii.c \
+			ft_isdigit.c \
+			ft_isprint.c \
+			ft_strlen.c \
+			ft_memset.c \
+			ft_bzero.c \
+			ft_memcpy.c \
+			ft_toupper.c \
+			ft_tolower.c \
+			ft_strchr.c \
+			ft_strrchr.c \
+			ft_atoi.c \
+			ft_strncmp.c \
+			ft_strnstr.c \
+			ft_strdup.c \
+			ft_strjoin.c \
+			ft_calloc.c \
+			ft_memchr.c \
+			ft_memcmp.c \
+			ft_substr.c \
+			ft_split.c \
+			ft_strtrim.c \
+			ft_itoa.c \
+			ft_strmapi.c \
+			ft_putchar_fd.c \
+			ft_putstr_fd.c \
+			ft_putnbr_fd.c \
+			ft_putendl_fd.c \
+			ft_striteri.c \
+			ft_memmove.c \
+			ft_lstnew.c \
+			ft_lstadd_front.c \
+			ft_lstsize.c \
+			ft_lstlast.c \
+			ft_lstadd_back.c \
+			ft_lstdelone.c \
+			ft_lstclear.c \
+			ft_lstiter.c \
+			ft_lstmap.c \
+			get_next_line.c
 
-RM = rm -f
+LST_OBJS:=	$(LST_SRCS:.c=.o)
 
-${NAME}	:	${OBJS}
-	ar -crs ${NAME} ${OBJS}
+INCS:=		$(addprefix $(INC_PATH)/,$(LST_INCS))
+SRCS:=		$(addprefix $(SRC_PATH)/,$(LST_SRCS))
+OBJS:=		$(addprefix $(OBJ_PATH)/,$(LST_OBJS))
 
-all :	${NAME}
+CC:=		gcc
+CFLAGS:= 	-Wall -Wextra -Werror -I $(INCS)
 
-%.o: %.c libft.h
-	${CC} ${CFLAGS} -c -o $@ $< 
+RM:=		rm -rf
 
-bonus	:	all
+ERASE:=		\033[2K\r
+BOLD:=		\033[1m
+redir:=		\033[31m
+GREEN:=		\033[32m
+BLUE:=		\033[34m
+PINK:=		\033[35m
+BOLD:=		\033[1m
+END	:=		\033[0m
+
+all : ${NAME}
+
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS) Makefile | $(OBJ_PATH)
+	$(CC) $(CFLAGS) -c $< -o $@
+	printf "$(BLUE)> Compiling :$(END) $<\n"
+	
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
+
+${NAME}	: ${OBJS}
+	printf "$(GREEN)> All the libft.c files have been compiled successfully !$(END)\n"
+	printf "$(BLUE)> Creating the libft archive file :$(END) $@\n"
+	ar rcs ${NAME} ${OBJS}
+	printf "$(GREEN)> Libft archive has been compiled successfully !$(END)\n"
+
+bonus: all
 
 clean :
-	${RM} ${OBJS}
+	${RM} ${OBJ_PATH}
 
 fclean : clean
 	${RM} ${NAME}
 
 re : fclean all
 
-.PHONY: all bonus clean fclean re 
+.PHONY: all clean fclean re
+
+.SILENT:
