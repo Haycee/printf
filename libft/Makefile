@@ -84,8 +84,6 @@ ${NAME}	: ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 	printf "$(GREEN)> Libft archive has been compiled successfully !$(END)\n"
 
-bonus: all
-
 clean :
 	${RM} ${OBJ_PATH}
 
